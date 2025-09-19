@@ -2,11 +2,9 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
   pull_request:
-    branches:
-      - main
+    branches: [ "main" ]
 
 jobs:
   backend:
@@ -14,20 +12,20 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: "job craft final/job_craft_backend"
+        working-directory: job craft final/job_craft_backend
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
           node-version: '18'
 
-      - name: Install backend dependencies
+      - name: Install dependencies
         run: npm install
 
-      - name: Run backend tests
+      - name: Run tests
         run: npm test --if-present
 
       - name: Build backend
@@ -38,18 +36,18 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: "frontend"
+        working-directory: review 1/job-craft-frontend
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
           node-version: '18'
 
-      - name: Install frontend dependencies
+      - name: Install dependencies
         run: npm install
 
       - name: Build frontend
-        run: npm run build --if-present
+        run: npm run build
