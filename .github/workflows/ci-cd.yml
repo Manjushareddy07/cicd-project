@@ -35,20 +35,28 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: job_craft_backend  # your backend folder
+        working-directory: job_craft_backend   # your backend folder
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Example for Java/Spring Boot backend
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Build backend
-        run: ./mvnw clean package  # or gradle build if using Gradle
+      - name: Cache Maven packages
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Build backend with Maven
+        run: ./mvnw clean package -B -DskipTests=false
 
       - name: Run backend tests
         run: ./mvnw test
