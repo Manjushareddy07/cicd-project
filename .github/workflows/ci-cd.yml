@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: job_craft_final/job_craft_backend   # <-- no spaces now
+        working-directory: "job craft final/job_craft_backend"   # <-- quoted
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -22,7 +22,7 @@ jobs:
         with:
           node-version: '18'
           cache: 'npm'
-          cache-dependency-path: job_craft_final/job_craft_backend/package-lock.json
+          cache-dependency-path: "job craft final/job_craft_backend/package-lock.json"
 
       - name: Install dependencies
         run: npm ci
@@ -38,7 +38,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: review_1/job_craft_frontend
+        working-directory: "review 1/job-craft-frontend"         # <-- quoted
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -48,7 +48,7 @@ jobs:
         with:
           node-version: '18'
           cache: 'npm'
-          cache-dependency-path: review_1/job_craft_frontend/package-lock.json
+          cache-dependency-path: "review 1/job-craft-frontend/package-lock.json"
 
       - name: Install dependencies
         run: npm ci
