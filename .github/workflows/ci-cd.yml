@@ -1,57 +1,24 @@
-name: CI/CD Pipeline
+backend:
+  name: Build & Test Backend
+  runs-on: ubuntu-latest
+  defaults:
+    run:
+      working-directory: "job craft final/job_craft_backend"
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
 
-jobs:
-  backend:
-    name: Build & Test Backend
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: "job craft final/job_craft_backend"   # <-- quoted
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-          cache: 'npm'
-          cache-dependency-path: "job craft final/job_craft_backend/package-lock.json"
-
-      - name: Install dependencies
+       - name: Install dependencies
         run: npm ci
 
-      - name: Run tests
-        run: npm test --if-present   # succeeds even if no "test" script
 
-      - name: Build backend
-        run: npm run build --if-present
+    - name: Run tests
+      run: npm test --if-present
 
-  frontend:
-    name: Build Frontend
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: "review 1/job-craft-frontend"         # <-- quoted
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-          cache: 'npm'
-          cache-dependency-path: "review 1/job-craft-frontend/package-lock.json"
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build frontend
-        run: npm run build --if-present
+    - name: Build backend
+      run: npm run build --if-present
