@@ -12,18 +12,20 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: job craft final/job_craft_backend
+        working-directory: "job craft final/job_craft_backend"   # <-- quoted
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: "job craft final/job_craft_backend/package-lock.json"
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Run tests
         run: npm test --if-present
@@ -36,18 +38,20 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: review 1/job-craft-frontend
+        working-directory: "review 1/job-craft-frontend"         # <-- quoted
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: "review 1/job-craft-frontend/package-lock.json"
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Build frontend
-        run: npm run build
+        run: npm run build --if-present
