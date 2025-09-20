@@ -8,11 +8,11 @@ on:
 
 jobs:
   backend:
-    name: Build Backend (Skip Tests)
+    name: Build & Test Backend
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: job craft final/job_craft_backend
+        working-directory: "job craft final/job_craft_backend"
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -20,18 +20,21 @@ jobs:
       - name: Set up Java
         uses: actions/setup-java@v3
         with:
-          distribution: 'temurin'
+          distribution: temurin
           java-version: '17'
 
-      - name: Build Backend without running tests
+      - name: Install dependencies
         run: mvn clean install -DskipTests
 
+      - name: Run backend tests
+        run: mvn test
+
   frontend:
-    name: Build Frontend
+    name: Build & Test Frontend
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: review 1/job-craft-frontend
+        working-directory: "review 1/job-craft-frontend"
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -41,8 +44,11 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Install dependencies
+      - name: Install frontend dependencies
         run: npm install
+
+      - name: Run frontend tests
+        run: npm test --if-present
 
       - name: Build frontend
         run: npm run build
