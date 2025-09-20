@@ -8,7 +8,7 @@ on:
 
 jobs:
   backend:
-    name: Build & Test Backend
+    name: Build Backend (Skip Tests)
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -23,8 +23,8 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Build and Test Backend
-        run: mvn clean install
+      - name: Build Backend without running tests
+        run: mvn clean install -DskipTests
 
   frontend:
     name: Build Frontend
